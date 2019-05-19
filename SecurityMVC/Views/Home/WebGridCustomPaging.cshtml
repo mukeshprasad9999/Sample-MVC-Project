@@ -1,0 +1,66 @@
+﻿@model IEnumerable<DomainModel.Entities.Agent>
+
+@section scripts
+{
+
+@{
+    ViewBag.Title = "WebGridCustomPaging";
+    WebGrid grid = new WebGrid(rowsPerPage: 2, ajaxUpdateContainerId: "container-grid");
+    grid.Bind(Model,
+    autoSortAndPage: false,
+    rowCount: ViewBag.TotalRows
+    );
+}
+<br />
+<div id="container-grid">
+    @grid.GetHtml(
+ fillEmptyRows: false,
+ tableStyle: "table table-responsive table-bordered",
+ alternatingRowStyle: "alternate-row",
+ headerStyle: "grid-header",
+ footerStyle: "table-pager",
+ mode: WebGridPagerModes.All,
+ firstText: "<< First",
+ previousText: "< Prev",
+ nextText: "Next >",
+ lastText: "Last >>",
+ columns: new[] {
+ grid.Column("AgentCode",header: "ID", canSort: false),
+ grid.Column("Name"),
+ grid.Column("WorkingArea",header: "Working Area"),
+ grid.Column("Commission",canSort:false),
+ grid.Column("Phone"),
+ grid.Column("Country")
+ }
+)
+</div>
+}
+
+
+
+    @*
+    @Html.Hidden("dir", grid.SortDirection)
+    @Html.Hidden("col", grid.SortColumn)
+
+    @section scripts {
+
+        <script>
+            $(function () {
+                try {
+                    var dir = $('#dir').val();
+                    var col = $('#col').val();
+                    var header = $("th a[href*=" + col + "]");
+                    if (dir == "Ascending") {
+                        header.text(header.text() + "  ▲")
+                    }
+                    if (dir == "Descending") {
+                        header.text(header.text() + "  ▼");
+                    }
+
+                } catch (e) {
+
+                }
+            })
+        </script>
+    }
+    *@
